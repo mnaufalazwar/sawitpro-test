@@ -3,6 +3,7 @@ package com.naufal.sawitpro.reader;
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -11,9 +12,11 @@ import java.io.File;
 @Service
 public class ImageReader {
 
+  @Autowired
+  private TesseractWrapper tesseractWrapper;
+
   public String getImageEnglishText(String imageLocation){
-    ITesseract iTesseract = new Tesseract();
-    iTesseract.setDatapath("/usr/share/tesseract-ocr/4.00/tessdata");
+    ITesseract iTesseract = tesseractWrapper.getITesseractEng();
     try {
       String imgText = iTesseract.doOCR(new File(imageLocation));
       return imgText;
@@ -24,9 +27,7 @@ public class ImageReader {
   }
 
   public String getImageChineseText(String imageLocation){
-    ITesseract iTesseract = new Tesseract();
-    iTesseract.setLanguage("chi_sim");
-    iTesseract.setDatapath("/home/naufal.azwar/project/personal/sawitpro/src/main/resources/tessdata");
+    ITesseract iTesseract = tesseractWrapper.getITesseractChi();
     try {
       String imgText = iTesseract.doOCR(new File(imageLocation));
       return imgText;
