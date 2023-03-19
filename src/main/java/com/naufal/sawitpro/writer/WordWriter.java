@@ -12,8 +12,9 @@ public class WordWriter {
 
   private static String OUTPUT_HTML_TEMPLATE_FILE_PATH = "/home/naufal.azwar/project/personal/sawitpro/src/main/resources/templates/template.html";
   private static String ENGLISH_OUTPUT_HTML_FILE_PATH = "/home/naufal.azwar/project/personal/sawitpro/src/main/resources/templates/englishoutput.html";
+  private static String CHINESE_OUTPUT_HTML_FILE_PATH = "/home/naufal.azwar/project/personal/sawitpro/src/main/resources/templates/chineseoutput.html";
 
-  public void writeWordsToHtmlFile(String text){
+  public void writeEnglishWordsToHtmlFile(String text){
 
     try {
       String[] words = text.split("\\s+");
@@ -35,6 +36,29 @@ public class WordWriter {
       htmlString = htmlString.replace("$title", title);
       htmlString = htmlString.replace("$body", body);
       File newHtmlFile = new File(ENGLISH_OUTPUT_HTML_FILE_PATH);
+      FileUtils.writeStringToFile(newHtmlFile, htmlString);
+    }catch (Exception e){
+      log.error("Exception when writing to file, ", e);
+    }
+  }
+
+  public void writeChineseWordsToHtmlFile(String text){
+
+    try {
+      String[] words = text.split("\\s+");
+
+      File htmlTemplateFile = new File(OUTPUT_HTML_TEMPLATE_FILE_PATH);
+      String htmlString = FileUtils.readFileToString(htmlTemplateFile);
+      String title = "Chinese word";
+      String body = "";
+
+      for(String word : words){
+        log.info("text = " + word);
+        body = body + "<span>" + word + " </span>";
+      }
+      htmlString = htmlString.replace("$title", title);
+      htmlString = htmlString.replace("$body", body);
+      File newHtmlFile = new File(CHINESE_OUTPUT_HTML_FILE_PATH);
       FileUtils.writeStringToFile(newHtmlFile, htmlString);
     }catch (Exception e){
       log.error("Exception when writing to file, ", e);

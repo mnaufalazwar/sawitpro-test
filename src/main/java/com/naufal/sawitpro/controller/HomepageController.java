@@ -148,16 +148,19 @@ public class HomepageController {
 
     List<String> imageNames = imageResources.keySet().stream().toList();
 
-    String text = "";
+    String textEnglish = "";
+    String textChinese = "";
     for (int i = 0; i < imageNames.size(); i++) {
       String fileName = imageNames.get(i);
       String[] fileNameType = fileName.split("-");
       String fileNameWithType = fileNameType[0] + "." + fileNameType[1];
       String filePath = imageResources.get(fileName);
 
-      text = text + imageReader.getImageText(filePath) + " ";
+      textEnglish = textEnglish + imageReader.getImageEnglishText(filePath) + " ";
+      textChinese = textChinese + imageReader.getImageChineseText(filePath) + " ";
     }
-    wordWriter.writeWordsToHtmlFile(text);
+    wordWriter.writeEnglishWordsToHtmlFile(textEnglish);
+    wordWriter.writeChineseWordsToHtmlFile(textChinese);
   }
 
 }
